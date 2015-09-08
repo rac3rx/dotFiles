@@ -1,0 +1,27 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+# $ tput colors  -  generally generates 8 colors by default 
+TERM=xterm-256color
+
+# GNU ls supports colors!
+# See dircolors to customize colors
+export LS_OPTS='--color=auto' 
+alias  ls='ls ${LS_OPTS}'
+
+# Get color support for 'less'
+export LESS="--RAW-CONTROL-CHARS"
+
+# Use colors for less, man, etc.
+[[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
+
+export GREP_OPTIONS="--color=auto"
+

@@ -1,0 +1,4 @@
+1 * * * * echo "run every minute  ..., everyday"
+30 * * * * wall "rhcsa research vnc, ipa, ldap, kernel, lvm2, find print exec xargs, tar"
+23 0-23/2 * * * echo "run 23 minutes after midn, 2am, 4am ..., everyday"
+

@@ -1,0 +1,76 @@
+# Best screenrc in the whole world.
+# Author: Seth House <seth@eseth.com>
+# Modified: 2009-09-10
+
+# Messages ####################################################################
+nethack on              # be careful! new screen tonight.
+sorendition "kg"        # makes screen messages stand out, black on green
+msgwait 2               # default message display is too long
+startup_message off     # boooring!
+version                 # echo version on startup, 'cause it's nice to know
+
+
+# Misc ########################################################################
+autodetach on           # A.K.A. the "save your bacon" option
+altscreen on            # full-screen programs (less, Vim) should be cleared once quit
+vbell off               # visual bells are hard to do right. screen's isn't good
+defutf8 on              # allow utf characters
+
+defnonblock 5
+defflow off             # try to disable flow control (buggy)
+bind s                  # free ctrl-s
+                        # Also put this in your shell startup file:
+                        # tty > /dev/null && stty -ixon -ixoff
+# escape ^Ss              # Use ctrl-s as the escape key or invoke with screen -e'^Ss'
+# FIXME: http://web.mit.edu/gnu/doc/html/screen_14.html
+
+
+
+# Scroll-back mode ############################################################
+ignorecase on           # case insensitive search in scroll-back mode
+defscrollback 9999      # default scroll-back buffer is tiny. (no. of lines.)
+bufferfile $HOME/.screen-exchange  # keep the buffer exchange file out of /tmp
+
+# FIXME: http://stackoverflow.com/questions/994563/integrate-readlines-kill-ring-and-the-x11-clipboard
+
+
+# Enable 256 Colors  (http://frexx.de/xterm-256-notes/)  ######################
+#
+# terminfo and termcap for nice 256 color terminal
+# allow bold colors - necessary for some reason
+attrcolor b ".I"
+# tell screen how to set colors. AB=background, AF=foreground
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# erase background with current bg color
+defbce "on"
+
+
+# Create windows on startup ###################################################
+select 0
+screen -t root          0 sudo su - root
+screen -t watch         1 sudo watch lsof -i
+screen -t myth          2 ssh -X root@myth
+screen -t olympus       3 ssh root@olympus
+screen -t rtorrent      4
+screen -t irssi         5
+#screen -t centerim      5
+#screen -t ncmpc         6
+
+# Research ####################################################################
+backtick 1 60 60 $HOME/bin/get_uptime
+backtick 2 60 60 $HOME/bin/get_cputemp Core0
+backtick 3 60 60 $HOME/bin/get_freemem
+backtick 4 60 60 $HOME/bin/get_freeswap
+backtick 5 60 60 $HOME/bin/get_volume PCM
+backtick 6 60 60 $HOME/bin/get_gmail
+backtick 7 60 60 $HOME/bin/get_updates
+backtick 8 60 60 $HOME/.screenrc.acpi  # .screenrc.acpi contains 1 line: acpi | awk -F ', ' '{print $2}'
+
+# Hardstatus ##################################################################
+# Adds a nice "tabbed" look, kinda long but gracefully pushes the status stuff off-screen if need be
+hardstatus alwayslastline '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%? %= %{g}][%{ky}%D %{ky}%d%M%y %{ky}%6c %{kr}%l %{g}]'
+
+# TODO: Detail every part of the hardstatus line below
+# %{wk}     - Default white on black
+
+# EOF
