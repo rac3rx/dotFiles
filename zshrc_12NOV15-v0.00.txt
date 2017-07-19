@@ -1,0 +1,39 @@
+umask 022
+
+#alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+export EDITOR="vim"
+
+mkcd () { 
+	    mkdir -p "$1";
+		    cd "$1"
+		}
+
+ssh-copy-id () {
+	cat ~/.ssh/id_rsa.pub | \
+    ssh $1 "mkdir -p ~/.ssh; cat >> ~/.ssh/authorized_keys; chmod 700 ~/.ssh && chmod 600 ~/.ssh/*"
+	# cat ~/.ssh/id_rsa.pub | ssh $1 "cat >> ~/id_rsa.pub"
+}
+		 
+		export PATH=$PATH:$HOME/bin
+
+source /home/rac3rx/antigen/antigen.zsh
+
+antigen use oh-my-zsh
+
+antigen bundle command-not-found
+antigen bundle edthedev/minion
+antigen bundle git
+antigen bundle heroku
+antigen bundle lein
+antigen bundle pip
+antigen bundle zsh-users/zsh-syntax-highlighting
+# Automatically activate virtualenvs
+antigen bundle sharat87/autoenv
+# Git Aware Prompt
+#antigen bundle nojhan/liquidprompt
+# Load the theme.
+# antigen theme robbyrussell
+antigen theme inanimate/darkblood-modular darkblood-modular
+
+# Tell antigen that you're done.
+antigen apply

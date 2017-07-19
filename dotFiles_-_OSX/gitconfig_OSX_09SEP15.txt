@@ -1,0 +1,26 @@
+[user]
+	name = rac3rx
+	email = chris.hammond.tx@gmail.com
+[color]
+	ui = true
+[difftool "kdiff3"]
+# REF: http://apple.stackexchange.com/questions/169360/using-kdiff3-as-default-git-diff-viewer-on-mac-os
+    path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
+	#cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[diff]
+	tool = kdiff3
+[difftool]
+	prompt = false
+[mergetool "kdiff3"]
+    path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
+	#cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	#trustExitCode = true
+[mergetool]
+	prompt = false
+	keepBackup = false
+[merge]
+	tool = kdiff3
+[push]
+	default = simple
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit

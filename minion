@@ -1,0 +1,22 @@
+[notes]
+home = /Users/rac3rx/.git/MySNs
+favorites = inbox, today, next, soon, someday
+notes_included_extensions = *
+notes_excluded_extensions = ~
+default_template = note
+default_recent_days = 14
+archive_folders_date_format = %%y.%%m
+
+[compose]
+templates = /Volumes/Storage/home/rac3rx/.vim/bundle/minion/plugin/../templates
+extension = .txt
+filename_sep = -
+editor = vim
+tagline = :tags:
+tags_case_sensitive = false
+
+[date]
+format = %%Y-%%m-%%d
+
+[sort_actions]
+
