@@ -1,0 +1,7 @@
+%_topdir /home/user/rpmbuild
+%_tmppath /home/user/rpmbuild/tmp
+%_signature gpg
+%_gpg_path /home/user/.gnupg
+%_gpg_name Chris Hammond
+%_gpgbin /usr/bin/gpg
+%__gpg /usr/bin/gpg
