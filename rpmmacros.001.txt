@@ -1,0 +1,30 @@
+#
+# %_signature => This will always be gpg
+# %_gpg_path  => Enter full path to .gnupg in your home directory
+# %_gpg_name  => Use the Real Name you used to create your key
+# %_gpbin     => run `which gpg` (without ` marks) to get full path
+# ROOT of the buildsystem
+#
+%_topdir        /home/user/rpmbuild
+
+%_sourcedir     %{_topdir}/%{name}-%{version}
+%_specdir       %{_sourcedir}
+
+%_tmppath       %{_topdir}/tmp
+%_builddir      %{_topdir}/BUILD
+%_buildroot     %{_topdir}/%{_tmppath}/%{name}-%{version}-root
+%_rpmdir        %{_topdir}/RPMS
+%_srcrpmdir     %{_topdir}/SRPMS
+
+%_rpmfilename   %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm
+
+# Customized tags for local builds
+%packager       Chris Hammond <chris.hammond.tx@gmail.com>
+%distribution   Personal Build
+
+# GNU GPG config below
+%_signature gpg
+%_gpg_path /home/user/.gnupg
+%_gpg_name Chris Hammond <chris.hammond.tx@gmail.com>
+%_gpgbin /usr/bin/gpg
+%__gpg /usr/bin/gpg
