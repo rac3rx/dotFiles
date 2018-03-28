@@ -1,0 +1,86 @@
+# .bashrc
+
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+
+#
+# if not interactive; don't do anything
+#
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+
+#
+# User specific variables, aliases, and functions
+### VARIABLES - USER
+#
+# HISTORY
+#
+alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c8- > ~/.tmp$$ && history -c && history -r ~/.tmp$$ && history -w && rm ~/.tmp$$'  
+#export HISTCONTROL=ignorespace  
+export HISTCONTROL=ignoreboth
+shopt -s histappend  
+shopt -s extglob  
+export HISTSIZE=1000  
+export HISTFILESIZE=2000
+export HISTIGNORE="!(+(*\ *))"
+export HISTTIMEFORMAT="%H:%M:%S %d%h%y "
+export PROMPT_COMMAND="hfix; $PROMPT_COMMAND"
+#
+# KANBAN - BASH
+#
+alias k=kanban
+export EDITOR=vim
+#
+# HTTP(S) PROXY
+#
+#export http_proxy=http://192.168.0.3:8888
+#export https_proxy=http://192.168.0.3:8888
+export PATH=/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:    # system PATH statement
+#
+# MISC
+#
+# export EDITOR=/usr/bin/vim
+# export SYSTEMD_PAGER=                                            # Uncomment line if you don't like systemctl's auto-paging
+export TERM=xterm-256color                                         # 256 colors within terminal
+
+### ALIASES - USER
+#alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c8- > ~/.tmp$$ && history -c && history -r ~/.tmp$$ && history -w && rm ~/.tmp$$'  
+alias enum="perl /opt/enum4linux-0.8.9/enum4linux.pl"               # linux alt for enum.exe eg windows/samba hosts
+
+
+###FUNCTIONS
+#
+# POWERLINE
+#
+#if [ -d "$HOME/.local/bin" ]; then
+#        PATH="$HOME/.local/bin:$PATH"
+#fi
+#if [ -f ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh ]; then
+#    source ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
+#fi
+
+
+#
+# GNU SCREEN - prevent PROMPT_COMMAND variable from clobbering screen window/tab titles 
+#
+if [ -e /etc/sysconfig/bash-prompt-screen ]; then
+    PROMPT_COMMAND=/etc/sysconfig/bash-prompt-screen
+else
+## RHEL 7
+    PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+
+## RHEL 6
+    PROMPT_COMMAND='printf "\033]0;%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+fi
+
+
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
