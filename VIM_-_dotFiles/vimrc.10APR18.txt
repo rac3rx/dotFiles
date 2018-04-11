@@ -1,0 +1,31 @@
+set nocompatible
+filetype plugin on
+set ts=4 sts=4 sw=4 et
+set tw=125 fo+=tcq wm=0
+
+set cursorline
+set cursorcolumn
+set colorcolumn=125
+
+hi CursorLine cterm=NONE ctermbg=grey ctermfg=black
+hi CursorColumn cterm=NONE ctermbg=green ctermfg=black
+hi ColorColumn cterm=NONE ctermbg=red ctermfg=black
+
+set foldmethod=indent
+
+set background=dark
+"set background=light
+color desert                                              "ls /usr/share/vimNN/colors
+
+"hi comment ctermbg=blue
+"hi string ctermbg=green
+
+syntax on
+ 
+" vimwiki/gollum interoperability
+" REF: https://davidyat.es/2017/09/01/vimwiki-plus-gollum/
+"let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+"let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+"let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+"let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.wiki'}]
