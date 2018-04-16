@@ -19,7 +19,7 @@ set cursorcolumn
 set colorcolumn=125
 
 hi CursorLine cterm=NONE ctermbg=grey ctermfg=black
-hi CursorColumn cterm=NONE ctermbg=green ctermfg=black
+hi CursorColumn cterm=NONE ctermbg=darkgreen ctermfg=black
 hi ColorColumn cterm=NONE ctermbg=red ctermfg=black
 
 set foldmethod=indent
