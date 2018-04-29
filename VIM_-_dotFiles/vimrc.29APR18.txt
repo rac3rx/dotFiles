@@ -1,0 +1,43 @@
+set autochdir
+syntax enable                                               "" turn on all the magic, including Explorer and syntax highlighting
+syntax on
+filetype indent plugin on
+set showmode                                                "" show me when I am in insert or overtype mode
+set showcmd                                                 "" when a command is in progress, show it in the status bar
+set wildmenu magic                                          "" for completion at the : command line.
+set ruler                                                   "" turn on the "ruler" (status info) at the bottom of the screen
+set hlsearch                                                "" highlight all matches in text when you search
+set showmatch                                               "" show matches for braces, parens, etc.
+set spelllang=en_us                                         "" when I want spell-checking, I want it to be english
+set spell
+
+set nocompatible
+filetype plugin on
+
+set foldmethod=indent
+
+set background=dark
+"set background=light
+color desert                                              "ls /usr/share/vimNN/colors
+
+"hi comment ctermbg=blue
+"hi string ctermbg=green
+
+set ts=4 sts=4 sw=4 et
+set tw=125 fo+=tcq wm=0
+
+set cursorline
+set cursorcolumn
+set colorcolumn=125
+
+hi CursorLine cterm=NONE ctermbg=grey ctermfg=black
+hi CursorColumn cterm=NONE ctermbg=green ctermfg=black
+hi ColorColumn cterm=NONE ctermbg=red ctermfg=black
+ 
+" vimwiki/gollum interoperability
+" REF: https://davidyat.es/2017/09/01/vimwiki-plus-gollum/
+"let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+"let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+"let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+"let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.wiki'}]
