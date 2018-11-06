@@ -1,0 +1,39 @@
+cat > synergy.conf << EOF
+#####################################################################################
+Start Synergy Server Service on server
+  synergys -f -c synergy.conf
+           -f flags : run synergy server service in foreground, default background
+           -c flags : pass configuration file to synergy server service
+Start Synergy Client Service on clients
+  synergyc -f fed-dev
+  synergyc -f 10.112.10.26
+#####################################################################################
+ 
+section: screens
+chr:
+fed:
+osx:
+end
+
+section: links
+fed:
+left = chr
+right = osx
+chr-dev:
+right = fed
+osx:
+left=fed
+end
+
+section: aliases
+fed-dev:
+fed-dev.example.com
+osx-dev:
+ osx-dev.example.com
+end
+
+section: options
+keystroke(alt+left) = switchInDirection(left)
+end
+EOF
+

@@ -1,0 +1,12 @@
+#$PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:
+alias ls='ls --color'
+alias ll='ls -l --color'
+
+# aria8 alias
+# don’t have to specify the options each time you want to download a new file.
+# alias seedbox="aria2c --conf-path=/Users/username/.aria2c/seedbox.conf"
+alias aria8='aria2c --split=8 --min-split-size=1M --max-connection-per-server=8'

@@ -1,0 +1,9 @@
+[user]
+	name = rac3rx
+	email = chris.hammond.tx@gmail.com
+[credential]
+	helper = cache --timeout=3600
+[core]
+	editor = vim
+[push]
+	default = simple

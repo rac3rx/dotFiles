@@ -1,0 +1,108 @@
+" 
+" REF: 
+" Turning_vim_into_a_modern_Python_IDE
+" http://persagen.com/files/misc/Turning_vim_into_a_modern_Python_IDE.html
+"
+execute pathogen#infect()
+
+filetype off                                                " pathogen
+"call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
+set autochdir
+set autoindent                                              " indent when moving to the next line while writing code
+set cursorline                                              " show a visual line under the cursor's current line
+let python_highlight_all = 1                                " enable all Python syntax highlighting features
+syntax enable                                               " turn on all the magic, including Explorer and syntax highlighting
+syntax on
+filetype indent plugin on
+filetype plugin on
+filetype on                                                 " try to detect filetypes
+filetype plugin indent on                                   " enable loading indent file for filetype
+set showmode                                                " show me when I am in insert or overtype mode
+set showcmd                                                 " when a command is in progress, show it in the status bar
+set wildmenu magic                                          " for completion at the : command line.
+set ruler                                                   " turn on the "ruler" (status info) at the bottom of the screen
+set hlsearch                                                " highlight all matches in text when you search
+set showmatch                                               " show matches for braces, parens, etc.
+set spelllang=en_us                                         " when I want spell-checking, I want it to be english
+set spell
+set modeline  
+
+set nocompatible
+
+set foldmethod=indent
+set foldlevel=99
+
+set background=dark
+"set background=light
+color desert                                              "ls /usr/share/vimNN/colors
+
+"hi comment ctermbg=blue
+"hi string ctermbg=green
+
+set ts=4 sts=4 sw=4 et
+set tw=125 fo+=tcq wm=0
+
+set cursorline
+set cursorcolumn
+set colorcolumn=125
+
+hi CursorLine cterm=NONE ctermbg=grey ctermfg=black
+hi CursorColumn cterm=NONE ctermbg=green ctermfg=black
+hi ColorColumn cterm=NONE ctermbg=red ctermfg=black
+ 
+" vimwiki/gollum interoperability
+" REF: https://davidyat.es/2017/09/01/vimwiki-plus-gollum/
+"let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+"let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+"let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+"let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/.vim/pack/plugins/start/vimwiki', 'syntax': 'markdown', 'ext': '.wiki'}]
+
+"
+" vim-plug
+" https://github.com/junegunn/vim-plug
+"
+
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" Since all vim major plugin managers store plugins in "bundle" directory, 
+" you might want to pass it to plug#begin() if " you do not wish to reinstall plugins.
+call plug#begin('~/.vim/bundle')
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+"Plug 'junegunn/vim-easy-align'
+
+" Any valid git URL is allowed
+"Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+
+" Multiple Plug commands can be written in a single line using | separators
+"Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+" On-demand loading
+"Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+"Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+" Using a non-master branch
+"Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+
+" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+"Plug 'fatih/vim-go', { 'tag': '*' }
+
+" Plugin options
+"Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+
+" Plugin outside ~/.vim/plugged with post-update hook
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" Unmanaged plugin (manually installed and updated)
+"Plug '~/my-prototype-plugin'
+
+" Initialize plugin system
+call plug#end()

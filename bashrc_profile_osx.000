@@ -1,0 +1,77 @@
+if [ -f ~/.bashrc ]; then
+   source ~/.bashrc
+fi
+# Append to the Bash history file, rather than overwriting it
+shopt -s histappend
+
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell
+
+# git and related stuff
+if [ -f ~/.git-completion.bash ];
+then
+    source ~/.git-completion.bash
+else
+    curl -o ~/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+    source ~/.git-completion.bash
+fi
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+GITPS1SHOWDIRTYSTATE=true
+
+# Git credentials
+GIT_AUTHOR_NAME="rac3rx"
+GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
+git config --global user.name "$GIT_AUTHOR_NAME"
+GIT_AUTHOR_EMAIL="chris.hammond.tx@gmail.com"
+GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
+git config --global user.email "$GIT_AUTHOR_EMAIL"
+git config --global diff.tool kdiff3
+git config --global color.ui true
+git config --global alias.s status
+git config --global alias.c checkout
+git config --global alias.b branch
+git config --global alias.lol log --oneline --graph --decorate
+
+git config --global merge.tool kdiff3
+git config --global mergetool.meld.cmd kdiff3 '$BASE $LOCAL $REMOTE $MERGED'
+git config --global mergetool.kdiff3.trustExitCode false
+
+git config --global difftool.kdiff3.cmd kdiff3 '$LOCAL $REMOTE'
+
+# aliases
+alias ls="ls -G"
+alias ll="ls -Glahs"
+alias psgrep="ps aux | egrep"
+alias youtube-dl='youtube-dl --extract-audio --audio-format mp3'
+
+# scripts and exports
+export PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]] \$(parse_git_branch)\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]"
+export GREP_OPTIONS="--color=auto"
+export GREP_COLOR="4;33"
+
+# Prefer US English and use UTF-8
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US"
+
+# Make vim the default editor
+export EDITOR="vim"
+
+# Colours
+export PGHOST=localhost
+#export RBENV_ROOT="$(brew --prefix rbenv)"
+#export GEM_HOME="$(brew --prefix)/opt/gems"
+#export GEM_PATH="$(brew --prefix)/opt/gems"
+
+export PATH=/usr/local/bin:$PATH
+#$PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export MANPATH=/usr/local/opt/coreutils/libexec/gnuman
+# aria8 alias
+# don’t have to specify the options each time you want to download a new file
+# alias seedbox="aria2c --conf-path=/Users/username/.aria2c/seedbox.conf"
+#alias aria8='aria2c --split=8 --min-split-size=1M --max-connection-per-server=8'
+
