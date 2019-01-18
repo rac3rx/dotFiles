@@ -1,64 +1,87 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# .bashrc
 
-# If not running interactively, don't do anything
+#
+# if not interactive; don't do anything
+#
 case $- in
     *i*) ;;
       *) return;;
 esac
 
 #
-# HISTORY
+# PATH
 #
-alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c8- > ~/.tmp$$ && history -c && history -r ~/.tmp$$ && history -w && rm ~/.tmp$$'  
-#export HISTCONTROL=ignorespace  
-export HISTCONTROL=ignoreboth
-shopt -s histappend  
-shopt -s extglob  
-shopt -s checkwinsize    # check windows size; update values of LINES & COLUMNS
-shopt -s globstar
-export HISTSIZE=1000  
-export HISTFILESIZE=2000
-export HISTIGNORE="!(+(*\ *))"
-export HISTTIMEFORMAT="%H:%M:%S %d%h%y "
-export PROMPT_COMMAND="hfix; $PROMPT_COMMAND"
+export PATH=/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:$HOME/bin:$PATH:
 
 #
-# set options for less; short version: export LESS='-F -i -J -M -R -W -x4 -X -z-4'
+# Prompt/Terminal
 #
-export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-
-
-# Set colors for less. Borrowed from https://wiki.archlinux.org/index.php/Color_output_in_console#less .
-export LESS_TERMCAP_mb=$'\E[1;31m'     # begin bold
-export LESS_TERMCAP_md=$'\E[1;36m'     # begin blink
-export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
-export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
-export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
-export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
-export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+if [ -z "$PROMPT_COMMAND" ]; then
+    case $TERM in
+    xterm*)
+      if [ -e /etc/sysconfig/bash-prompt-xterm ]; then
+          PROMPT_COMMAND=/etc/sysconfig/bash-prompt-xterm
+      else
+          PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+      fi
+      ;;
+    screen*)
+      if [ -e /etc/sysconfig/bash-prompt-screen ]; then
+          PROMPT_COMMAND=/etc/sysconfig/bash-prompt-screen
+      else
+      ## RHEL 7
+          PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+      ## RHEL 6
+          PROMPT_COMMAND='printf "\033]0;%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+      fi
+      ;;
+    *)
+      [ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
+      ;;
+    esac
+fi
 
 #
-# lesspipe: make less more friendly for non-text input files, see lesspipe(1)
+# Color Output In Terminal/Console
 #
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-alias lessc='/usr/share/vim/vim74/macros/less.sh'
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias ll='ls -alF'
+    alias ll='ls -altrhF'
+    alias la='ls -A'
+    alias l='ls -CF'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+    alias diff='diff --color=auto'
+fi
 
 #
-# Color Output In Console
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 #
-alias diff='diff --color=auto'
-alias grep='grep --color=auto'
 
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+#alias ll='ls -alF'
+alias ll='ls -altrhF'
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
 force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
@@ -70,57 +93,6 @@ if [ -n "$force_color_prompt" ]; then
     else
         color_prompt=
     fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-#alias ll='ls -alF'
-alias ll='ls -altrhF'
-alias la='ls -A'
-alias l='ls -CF'
-
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -135,6 +107,24 @@ if ! shopt -oq posix; then
 fi
 
 #
+# HISTORY
+#
+export HISTCONTROL=ignoreboth                                                   # ignore space and dupes
+export HISTSIZE=100000                                                          # big big history
+export HISTFILESIZE=100000                                                      # big big history
+export HISTTIMEFORMAT="%H:%M:%S %d%h%y "
+shopt -s histappend  
+shopt -s checkwinsize                                                           # updates lines and columns
+shopt -s extglob                                                                # exteneded globbing: ?, *, +, @, !
+shopt -s globstar                                                               # "**" match all files & zero or more directories/subdirectories
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"     # Save and reload the history after each command finishes
+
+#
+# vim
+#
+export EDITOR=/usr/bin/vim
+
+#
 # KANBAN - BASH
 #
 alias k=kanban
@@ -143,44 +133,10 @@ if [ -f "$HOME/.local/bin/kanban" ]; then
 fi
 
 #
-# vim
-#
-export EDITOR=vim
-
-
-#
 # HTTP(S) PROXY
 #
 #export http_proxy=http://192.168.0.3:8888
 #export https_proxy=http://192.168.0.3:8888
-
-#
-# PATH; add personal bin
-#
-export PATH=$HOME/bin:$PATH
-
-#
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-#
-export PATH="$PATH:$HOME/.rvm/bin"
-
-#
-# GNU SCREEN - prevent PROMPT_COMMAND variable from clobbering screen window/tab titles 
-# NB:  two PROMPT_COMMAND variables within bashrc
-#
-if [ -e /etc/sysconfig/bash-prompt-screen ]; then
-    PROMPT_COMMAND=/etc/sysconfig/bash-prompt-screen
-else
-## RHEL 7
-    PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
-
-## RHEL 6
-    PROMPT_COMMAND='printf "\033]0;%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
-fi	
-    else
-        \export PATH="$HOME/anaconda3/bin:$PATH"
-    fi
-fi
 
 #
 #  Anaconda3
@@ -201,5 +157,3 @@ else
     fi
 fi
 unset __conda_setup
-
-
