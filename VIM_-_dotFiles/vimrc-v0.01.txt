@@ -32,7 +32,3 @@ set colorcolumn=125
 hi CursorLine cterm=NONE ctermbg=grey ctermfg=black
 hi CursorColumn cterm=NONE ctermbg=darkgreen ctermfg=black
 hi ColorColumn cterm=NONE ctermbg=red ctermfg=black
-
-if &diff
-    highlight! link DiffText MatchParen
-endif
