@@ -1,37 +1,185 @@
 # .bashrc
 
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+#
+# TODO:
+#  git configuration
+#
+
+#
+# if not interactive; don't do anything
+#
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+#
+# PATH
+#
+export PATH=/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:$HOME/bin:$PATH:
+
+#
+# Prompt/Terminal
+#
+if [ -z "$PROMPT_COMMAND" ]; then
+    case $TERM in
+    xterm*)
+      if [ -e /etc/sysconfig/bash-prompt-xterm ]; then
+          PROMPT_COMMAND=/etc/sysconfig/bash-prompt-xterm
+      else
+          PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+      fi
+      ;;
+    screen*)
+      if [ -e /etc/sysconfig/bash-prompt-screen ]; then
+          PROMPT_COMMAND=/etc/sysconfig/bash-prompt-screen
+      else
+      ## RHEL 7
+          PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+      ## RHEL 6
+          PROMPT_COMMAND='printf "\033]0;%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+      fi
+      ;;
+    *)
+      [ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
+      ;;
+    esac
 fi
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
+#
+# Color Output In Terminal/Console
+#
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias ll='ls -alF'
+    alias ll='ls -altrhF'
+    alias la='ls -A'
+    alias l='ls -CF'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
-# User specific aliases and functions
-export http_proxy=http://192.168.0.3:8888
-export https_proxy=http://192.168.0.3:8888
-if [ -f ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh ]; then
-    source ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+    alias diff='diff --color=auto'
 fi
+
 #
-# 256 colors
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 #
-export TERM=xterm-256color
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+#alias ll='ls -alF'
+alias ll='ls -altrhF'
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
+    else
+        color_prompt=
+    fi
+fi
+
+#
+# BASH Aliases: seperate file
+#
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# 
+# BASH Completion
+#
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
 #
 # HISTORY
 #
-export HISTCONTROL=ignorespace
-#export HISTTIMEFORMAT="%m/%d/%y %T"
-#export HISTTIMEFORMAT="%h/%d - %H:%M:%S "
-#1002  Apr/30 - 11:46:16 grep duncan /var/log/maillog
-export HISTTIMEFORMAT="%H:%M:%S/%d%h%y "
-#alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c8- > ~/.tmp$$ && history -c && history -r ~/.tmp$$ && history -w && rm ~/.tmp$$'  
-#HISTCONTROL=ignorespace  
-shopt -s histappend
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"  
-shopt -s extglob  
-HISTSIZE=100000
-HISTFILESIZE=100000
-export HISTIGNORE="!(+(*\ *))"  
-#PROMPT_COMMAND="hfix; $PROMPT_COMMAND" 
+export HISTCONTROL=ignoreboth                                                   # ignore space and dupes
+export HISTSIZE=100000                                                          # big big history
+export HISTFILESIZE=100000                                                      # big big history
+export HISTTIMEFORMAT="%H:%M:%S %d%h%y "
+shopt -s histappend  
+shopt -s checkwinsize                                                           # updates lines and columns
+shopt -s extglob                                                                # exteneded globbing: ?, *, +, @, !
+shopt -s globstar                                                               # "**" match all files & zero or more directories/subdirectories
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"     # Save and reload the history after each command finishes
+
+#
+# vim
+#
+export EDITOR=/usr/bin/vim
+
+#
+# KANBAN - BASH
+#
+alias k=kanban
+if [ -f "$HOME/.local/bin/kanban" ]; then
+	PATH="HOME/.local/bin/:$PATH"
+fi
+
+#
+# git 
+#
+git config --global user.name "rac3rx"
+git config --global user.email "chris.hammond.tx@gmail.com"
+git config --global diff.tool kdiff3
+git config --global color.ui true
+git config --global diff.tool vimdiff
+git config --global merge.tool vimdiff
+#git config --global merge.tool kdiff3
+#git config --global mergetool.kdiff3.trustExitCode false
+#git config --global difftool.kdiff3.cmd kdiff3 '$LOCAL $REMOTE'
+
+#
+# HTTP(S) PROXY
+#
+#export http_proxy=http://192.168.0.3:8888
+#export https_proxy=http://192.168.0.3:8888
+
+#
+#  Anaconda3
+#
+
+# added by Anaconda3 5.3.0 installer
+# >>> conda init >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/assessor/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/home/assessor/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/assessor/anaconda3/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base
+    else
+        \export PATH="/home/assessor/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
