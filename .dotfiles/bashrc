@@ -62,7 +62,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
-    alias diff='diff --color=auto'
+    #alias diff='diff --color=auto'
 fi
 
 #
@@ -148,14 +148,11 @@ fi
 # git 
 #
 git config --global user.name "rac3rx"
-git config --global user.email "chris.hammond.tx@gmail.com"
-git config --global diff.tool kdiff3
+git config --global user.email chris.hammond.tx@gmail.com
+#git config --global push.default simple
 git config --global color.ui true
 git config --global diff.tool vimdiff
 git config --global merge.tool vimdiff
-#git config --global merge.tool kdiff3
-#git config --global mergetool.kdiff3.trustExitCode false
-#git config --global difftool.kdiff3.cmd kdiff3 '$LOCAL $REMOTE'
 
 #
 # HTTP(S) PROXY
