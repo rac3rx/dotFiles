@@ -1,38 +1,27 @@
-set autochdir
-syntax enable                                               "" turn on all magic, including Explorer and syntax highlighting
-syntax on
-set showmode                                                "" show me when I am in insert or overtype mode
-set showcmd                                                 "" when a command is in progress, show it in the status bar
-
-set wildmenu magic                                          "" for completion at the : command line.
-set ruler                                                   "" turn on the "ruler" (status info) at the bottom of the screen
-set hlsearch                                                "" highlight all matches in text when you search
-set showmatch                                               "" show matches for braces, parens, etc.
-set spelllang=en_us                                         "" when I want spell-checking, I want it to be english
-set spell
-
 set nocompatible
-filetype plugin on
+" :runtime syntax/colortest.vim  ref: http://www.robmeerman.co.uk/unix/256colours
+set t_Co=256 "256 colors ref:http://robotsrule.us/vim/
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
-set background=dark
-"set background=light
-color desert                                                "" ls /usr/share/vimNN/colors
+" This is the Vundle package, which can be found on GitHub.
+" For GitHub repos, you specify plugins using the
+" 'user/repository' format
+Plugin 'gmarik/vundle'
 
-"hi comment ctermbg=blue
-"hi string ctermbg=green
-"
-set ts=4 sts=4 sw=4 et
-set tw=125 fo+=tcq wm=0
-set foldmethod=indent
- 
-set cursorline
-set cursorcolumn
-set colorcolumn=125
+" We could also add repositories with a ".git" extension
+Plugin 'scrooloose/nerdtree.git'
 
-hi CursorLine cterm=NONE ctermbg=grey ctermfg=black
-hi CursorColumn cterm=NONE ctermbg=darkgreen ctermfg=black
-hi ColorColumn cterm=NONE ctermbg=red ctermfg=black
+" To get plugins from Vim Scripts, you can reference the plugin
+" by name as it appears on the site
+Plugin 'Buffergator'
 
-if &diff
-    highlight! link DiffText MatchParen
-endif
+" Now we can turn our filetype functionality back on
+filetype plugin indent on
+
+Plugin 'fmoralesc/vim-pad'
+let g:pad#dir="/Users/rac3rx/Downloads/Support/Data/Notational_Velocity_Data"
+
+" minion plugin/bundle
+Bundle 'edthedev/minion'
