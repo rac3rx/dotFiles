@@ -1,0 +1,52 @@
+# messages #######################################################
+nethack on 
+sorendition "kg"
+msgwait 2
+startup_message off
+
+
+
+
+# misc     #######################################################
+autodetach on
+altscreen on
+vbell off
+defutf8 on
+
+defnonblock 5
+defflow off
+bind s
+
+bind > eval writebuf "exec sh -c 'xsel -bi </tmp/screen-exchange'"
+bind > eval "exec sh -c 'xsel -bo >/tmp/screen-exchange'" readbuf
+
+
+
+
+# scroll-back mode  ##############################################
+attrcolor b ".I"
+termcapinfo xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# tput colors  <-- should equal 256
+term screen-256color
+
+
+
+
+# startup - windows ##############################################
+select 0
+screen -t root            0 sudo su - root
+screen -t lsof            1 sudo watch lsof -i
+screen -t netstat         2 sudo watch netstat  -tulpnwe
+screen -t top             3 sudo top
+screen -t root            4 sudo su - root
+screen -t                 5 
+screen -t                 6 
+screen -t                 7 
+screen -t                 8 
+screen -t                 9 
+
+
+
+
+# hardstatus        ##############################################
+hardstatus alwayslastline '%{= kG} G}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%? %= %{g}][%{ky}%D %{ky}%d%M%y %{ky}%6c %{kr}%1 %{g}]'
