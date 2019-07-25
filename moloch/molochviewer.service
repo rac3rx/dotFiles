@@ -1,0 +1,14 @@
+[Unit]
+Description=Moloch Viewer
+After=network.target
+
+[Service]
+Type=simple
+Restart=on-failure
+StandardOutput=tty
+EnvironmentFile=-/data/moloch/etc/molochviewer.env
+ExecStart=/bin/sh -c '/data/moloch/bin/node viewer.js -c /data/moloch/etc/config.ini  >> /data/moloch/logs/viewer.log 2>&1'
+WorkingDirectory=/data/moloch/viewer
+StartLimitInterval=0
+[Install]
+WantedBy=multi-user.target
