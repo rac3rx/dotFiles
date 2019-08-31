@@ -18,7 +18,7 @@ set background=dark
 "set background=light
 "colorscheme desert                                         " ls /usr/share/vimNN/colors
 colorscheme reykjavik                                       " git clone https://github.com/mswift42/vim-themes.git
-                                                            " mkdir ~/.vim/colors; cp vim-themes/colors/*.vim ~/.vim/colors/
+                                                            " cp vim-themes/colors/*.vim ~/.vim/colors/
 
 "hi comment ctermbg=blue
 "hi string ctermbg=green
@@ -35,7 +35,7 @@ hi CursorLine cterm=NONE ctermbg=grey ctermfg=black
 hi CursorColumn cterm=NONE ctermbg=darkgreen ctermfg=black
 hi ColorColumn cterm=NONE ctermbg=red ctermfg=black
                                                             " vim search/fold
-nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>
+nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2
 
 "Plug 'mattn/emmet-vim'                                     " emmit plugin; git update?
                                                             " git clone https://github.com/mattn/emmet-vim.git
